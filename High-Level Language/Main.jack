@@ -1,0 +1,81 @@
+class Main {
+    function void main() {
+        var Gun gun;
+        var Target target;
+        var boolean select_speed;
+        var int speed;
+        var boolean game_on;
+        var int result;
+        var String announcement;
+        var int restart;
+        let game_on = true;
+
+        // An infinite loop
+        while (game_on) { 
+            let select_speed = true;
+
+            // Asking the player to select speed, stops when he selects an available option
+            while (select_speed) {
+                do Output.moveCursor(1, 17);
+                do Output.printString("Welcome to the shooting game...");
+                do Output.moveCursor(3, 10);
+                do Output.printString("When you have to shoot, shoot! Don't talk...");
+                do Output.moveCursor(5, 10);
+                do Output.printString("Select speed: 1 (Fast), 2 (Medium), 3 (Slow)");
+                do Output.moveCursor(9, 30);
+                let speed = Keyboard.readInt("");
+                if ((speed = 1) | (speed = 2) | (speed = 3)) {
+                    let select_speed = false;
+                }
+            }
+            do Output.moveCursor(7,20);
+            do Output.printString("Press Spacebar to Shoot");
+            do Sys.wait(500);
+            do Screen.clearScreen();
+
+            // The higher the speed, the easier the game
+            let speed = 6 / speed;
+            let target = Target.new(speed);
+            let gun = Gun.new(0,0,(speed));
+            do target.draw_target();
+
+            // Moves the target until being hit by a bullet
+            do target.move(gun);
+            do Screen.clearScreen();
+            do Sys.wait(500);
+
+            do Output.moveCursor(7, 20);
+            if (target.calc_score() = 0) {
+                do Output.printString("You missed...");
+            }
+            if (target.calc_score() = 1) {
+                do Output.printString("Respect!");
+            }
+            if (target.calc_score() = 2) {
+                do Output.printString("BULLSEYE!!!");
+            }
+
+            do Sys.wait(500);
+            do Screen.clearScreen();
+            do Sys.wait(1000);
+
+            do Output.moveCursor(7, 10);
+            do Output.printString("Wanna keep going? 1: Yes, Another key: No");
+            do Output.moveCursor(13, 30);
+            let restart = Keyboard.readInt("");
+
+            // If any key different than 1 is pressed, quits the game
+            if (~(restart = 1)) {
+                do Output.moveCursor(7, 25);
+                do Screen.clearScreen();
+                do Output.printString("See you later!");
+                do Sys.wait(750);
+                do Screen.clearScreen();
+                do Sys.wait(750);
+                return;
+            }
+            do Screen.clearScreen();
+        }
+        return;
+    }
+}

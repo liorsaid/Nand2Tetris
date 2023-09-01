@@ -1,0 +1,56 @@
+class Bullet {
+    field int x;
+    field int speed;
+
+    // Bullet's constructor
+    constructor Bullet new(int Aspeed) {
+        let x = 0;
+        let speed = Aspeed;
+        return this;
+    }
+
+    // Draws the bullet
+    method void draw_bullet() {
+        do Screen.drawCircle((x+104), 120, 7);
+        return;
+    }
+
+    // Shoots the bullet
+    method void shoot() {
+        do Screen.setColor(true);
+        do draw_bullet();
+        while (x < (368 - speed)) {
+            do Screen.setColor(false);
+            do draw_bullet();
+            let x = x + speed;
+            do Screen.setColor(true);
+            do draw_bullet();
+        }
+        return;
+    }
+
+    // Erases the bullet
+    method void erase() {
+        do Screen.setColor(false);
+        do draw_bullet();
+        do dispose();
+        return;
+    }
+
+    // Returns true if the bullet hit the wall
+    method boolean hit() {
+        if (x > (368 - speed)) {
+            return true;
+        }
+        if (x = (368 - speed)) {
+            return true;
+        } 
+        return false;
+    }
+
+    // Disposes the bullet
+    method void dispose() {
+        do Memory.deAlloc(this);
+        return;
+    }
+}

@@ -1,0 +1,53 @@
+class Gun {
+    field int x, y;
+    field Bullet bullet;
+    field int speed;
+
+    // Gun's constructor
+    constructor Gun new(int Ax, int Ay, int Aspeed) {
+        let x = Ax;
+        let y = Ay;
+        let speed = Aspeed;
+        let bullet = Bullet.new(speed);
+        do draw_gun();
+        return this;
+    }
+
+    // Draws the gun
+    method void draw_gun() {
+        do Screen.setColor(true);
+        do Screen.drawRectangle(8,112,79,128);
+        do Screen.drawRectangle(16,104,23,111);
+        do Screen.drawRectangle(11,128,31,159);
+        do Screen.drawRectangle(72,104,79,111);
+        do Screen.drawRectangle(36,128,39,135);
+        do Screen.drawRectangle(44,128,47,143);
+        do Screen.drawRectangle(32,140,43,143);
+        do dispose();
+        return;
+    }
+
+    // Shoots the gun's bullet
+    method void fire() {
+        do bullet.shoot();
+        return;
+    }
+
+    // Returns true if the gun's bullet hit the wall
+    method boolean hit() {
+        return bullet.hit();
+    }
+
+    // Erases the gun's bullet
+    method void erase() {
+        do bullet.erase();
+        do dispose();
+        return;
+    }
+
+    // Disposes the gun
+    method void dispose() {
+        do Memory.deAlloc(this);
+        return;
+    }
+}
